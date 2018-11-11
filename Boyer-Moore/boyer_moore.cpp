@@ -5,21 +5,28 @@
 #include <vector>
 
 #define ALPHABET_LEN 256
+#define max(a, b) ((a < b) ? b : a)
 
-void print_buffer(std::vector<char>& b);
+using namespace std;
+
+string print_buffer(std::vector<char>& b);
 char uppercase(char c);
 
 int main(int argc, char* argv[])
 {
+	if(argc != 3)
+	{
+		std::cout << "Usage ./Boyer_Moore <file.txt> <pattern>" <<std::endl;
+		return -1;
+	}
 	std::string line;
 	std::vector<char> buffer;
 	std::ifstream f(argv[1]);
+	std::string pat = argv[2];
 	if(f.is_open())
 	{
 		while(getline (f,line))
 		{
-			std::cout << line << std::endl;
-			
 			for(int i=0;i<line.length();i++)
 			{	
 				char c = line[i];
@@ -29,19 +36,20 @@ int main(int argc, char* argv[])
 		}
 		f.close();
 
-		print_buffer(buffer);
+		std::string l = print_buffer(buffer);
 	}
 	else std::cout << "Unable to open file" << std::endl;
 	return 0;
 }
 
-void print_buffer(std::vector<char>& b)
+std::string print_buffer(std::vector<char>& b)
 {
+	std::string r;
 	for(int i=0;i<b.size();i++)
 	{
-		std::cout << b.at(i);
+		r += b.at(i);
 	}
-	std::cout<<std::endl;
+	return r;
 }
 
 char uppercase(char c)
