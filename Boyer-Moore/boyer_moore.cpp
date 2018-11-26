@@ -19,6 +19,9 @@ void make_delta1(int *delta1, uint8_t *pat, int32_t patlen);
 void make_delta2(int *delta2, uint8_t *pat, int32_t patlen);
 uint8_t* boyer_moore (uint8_t *string, uint32_t stringlen, uint8_t *pat, uint32_t patlen);
 
+int comparisons = 0;
+
+
 int main(int argc, char* argv[])
 {
 	if(argc != 3)
@@ -58,12 +61,18 @@ int main(int argc, char* argv[])
 		uint8_t *u = (uint8_t*) l;
 		uint8_t *w = (uint8_t*) p;
 		uint8_t *o = boyer_moore(u,strlen(l),w,strlen(p));
-
-		uint result = o - u;
-		std::cout<<result<<std::endl;
 		
+		if(o == NULL)
+		{	
+			std::cout<<"Pattern not found"<<std::endl;
+			return 0;
+		}
+		uint result = o - u;
+		std::cout<<"Match at index: "<<result<<std::endl;
+		
+		/*
 		for(int i = result; i < text.length(); i++)
-			std::cout<<buffer[i];
+			std::cout<<buffer[i];*/
 		std::cout<<std::endl;
 
 
