@@ -65,11 +65,14 @@ int main(int argc, char* argv[])
 		if(o == NULL)
 		{	
 			std::cout<<"Pattern not found"<<std::endl;
+			std::cout<<"Comparisons: "<<comparisons<<std::endl;
 			return 0;
 		}
 		uint result = o - u;
 		std::cout<<"Match at index: "<<result<<std::endl;
-		
+		std::cout<<"Comparisons: "<<comparisons<<std::endl;
+		float ans = (float)comparisons / (float)result;
+		std::cout<<"Result: "<<ans<<std::endl;
 		/*
 		for(int i = result; i < text.length(); i++)
 			std::cout<<buffer[i];*/
@@ -170,7 +173,9 @@ uint8_t* boyer_moore (uint8_t *string, uint32_t stringlen, uint8_t *pat, uint32_
     i = patlen-1;
     while (i < stringlen) {
         int j = patlen-1;
-        while (j >= 0 && (string[i] == pat[j])) {
+        while (j >= 0 && (string[i] == pat[j])) 
+	{
+	    comparisons++;
             --i;
             --j;
         }
@@ -178,6 +183,7 @@ uint8_t* boyer_moore (uint8_t *string, uint32_t stringlen, uint8_t *pat, uint32_
             free(delta2);
             return (string + i+1);
         }
+	comparisons++;
 
         i += max(delta1[string[i]], delta2[j]);
     }
