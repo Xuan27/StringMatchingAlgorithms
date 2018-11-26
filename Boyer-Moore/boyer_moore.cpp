@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstring>
 
 #define ALPHABET_LEN 256
 #define NOT_FOUND patlen
@@ -29,6 +30,7 @@ int main(int argc, char* argv[])
 	std::vector<char> buffer;
 	std::ifstream f(argv[1]);
 	std::string pat = argv[2];
+	std::string pat_upper;
 	if(f.is_open())
 	{
 		while(getline (f,line))
@@ -42,7 +44,26 @@ int main(int argc, char* argv[])
 		}
 		f.close();
 
-		std::string l = print_buffer(buffer);
+		for(int i=0;i<pat.length();i++)
+		{
+			char c = pat[i];
+			c = uppercase(c);
+			pat_upper.push_back(c);
+		}
+
+		std::string text = print_buffer(buffer);
+
+		const char *l = text.c_str();
+		const char *p = pat_upper.c_str();
+		uint8_t *u = (uint8_t*) l;
+		uint8_t *w = (uint8_t*) p;
+		uint8_t *o = boyer_moore(u,strlen(l),w,strlen(p));
+
+		std::cout<<"end"<<std::endl;
+		//uint8_t result = *o;
+		//std::cout<<result<<std::endl;
+
+
 	}
 	else std::cout << "Unable to open file" << std::endl;
 	return 0;
