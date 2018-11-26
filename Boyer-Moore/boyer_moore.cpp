@@ -59,9 +59,12 @@ int main(int argc, char* argv[])
 		uint8_t *w = (uint8_t*) p;
 		uint8_t *o = boyer_moore(u,strlen(l),w,strlen(p));
 
-		std::cout<<"end"<<std::endl;
-		//uint8_t result = *o;
-		//std::cout<<result<<std::endl;
+		uint result = o - u;
+		std::cout<<result<<std::endl;
+		
+		for(int i = result; i < text.length(); i++)
+			std::cout<<buffer[i];
+		std::cout<<std::endl;
 
 
 	}
