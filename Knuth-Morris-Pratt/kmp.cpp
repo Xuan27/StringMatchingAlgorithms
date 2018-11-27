@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 
 		std::cout<<"Last index compared: "<< last_index_compared << std::endl;
 
-		float result = (float)comparisons / (float)last_index_compared;
+		float result = (float)comparisons/(float)last_index_compared;
 
 		std::cout<<"Result: "<<result<<std::endl;
 	}
