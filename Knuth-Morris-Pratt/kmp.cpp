@@ -13,6 +13,7 @@ std::string print_buffer(std::vector<char>& b);
 char uppercase(char c);
 
 int comparisons = 0;
+int last_index_compared = 0;
 
 int main(int argc, char* argv[])
 {
@@ -48,23 +49,25 @@ int main(int argc, char* argv[])
 
                 std::string text = print_buffer(buffer);
 
-		std::string str = "ABABDABACDABABCABAB";
-		std::string pat = "ABABCABAB";
+		std::cout<<std::endl<<"Index: "<<KMP(text,pat_upper)<<std::endl;
 
-		std::cout<<std::endl<<KMP(str,pat);
+		std::cout<<"Comparisons: "<<comparisons<<std::endl;
+
+		std::cout<<"Last index compared: "<< last_index_compared << std::endl;
+
+		float result = (float)comparisons / (float)last_index_compared;
+
+		std::cout<<"Result: "<<result<<std::endl;
 	}
 	return 0;
 }
 
-void function_failure(std::string& pattern, )
+void function_failure(std::string& pattern, std::vector<int>& function_results )
 {
 	int length = pattern.length();
-	std::vector<int> function_results;
-	//function_results.resize(length);
-	//function_results[0] = 0;
-	function_results.push_back(0);
+	function_results[0] = 0;
 	int l = 0;
-	int i = 0;
+	int i = 1;
 
 	while (i < length)
 	{
@@ -76,7 +79,7 @@ void function_failure(std::string& pattern, )
 		}
 		else
 		{
-			if(l!=0)
+			if(l != 0)
 			{
 				l = function_results[l-1];
 			}
@@ -88,7 +91,6 @@ void function_failure(std::string& pattern, )
 		}
 	}
 
-	return function_results;
 }
 
 int KMP(std::string& text, std::string& pattern)
@@ -96,7 +98,8 @@ int KMP(std::string& text, std::string& pattern)
 	int patl = pattern.length();
 	int textl = text.length();
 
-	vector<int> function_results = function_failure(pattern);
+	vector<int> function_results(patl);
+	function_failure(pattern,function_results);
 
 	int i = 0;
 	int j = 0;
@@ -107,6 +110,7 @@ int KMP(std::string& text, std::string& pattern)
 		{
 			++i;
 			++j;
+			comparisons++;
 		}
 		else
 		{
@@ -118,13 +122,16 @@ int KMP(std::string& text, std::string& pattern)
 			{
 				i += 1;
 			}
+			comparisons++;
 		}
 
 		if(j == patl)
 		{
+			last_index_compared = i-1;
 			return i -j;
 		}
 	}
+	last_index_compared = i-1;
 	return -1;
 
 }
